@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model MenuCategory {
+  id        Int        @id @default(autoincrement())
+  name      String
+  sortOrder Int        @default(0)
+  items     MenuItem[]
+}
+
+model MenuItem {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  imageUrl    String?
+  available   Boolean      @default(true)
+  sortOrder   Int          @default(0)
+
+  categoryId  Int
+  category    MenuCategory @relation(fields: [categoryId], references: [id])
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([categoryId, sortOrder])
+}
+
+model OpeningHour {
+  id        Int     @id @default(autoincrement())
+  dayOfWeek Int     // 0=Sun ... 6=Sat
+  isClosed  Boolean @default(false)
+  openTime  String? // "10:00"
+  closeTime String? // "22:00"
+
+  @@unique([dayOfWeek])
+}
+
+model RestaurantConfig {
+  id                  Int  @id @default(1)
+  capacityPerSlot     Int  @default(30)
+  slotDurationMinutes Int  @default(60)
+  maxPartySize        Int  @default(10)
+}
+
+model Reservation {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?
+  date      DateTime
+  slotStart String
+  slotEnd   String
+  partySize Int
+  status    String   @default("CONFIRMED")
+  createdAt DateTime @default(now())
+
+  @@index([date, slotStart])
+}
+
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  coverImage  String?
+  excerpt     String?
+  content     String
+  status      String   @default("DRAFT") // DRAFT | PUBLISHED
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
