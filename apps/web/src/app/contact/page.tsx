@@ -58,7 +58,7 @@ export default async function ContactPage() {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-black/20" />
-            <TopNav />
+            {/* <TopNav /> */}
 
             <div className="absolute left-10 bottom-14 text-[#e8dcc2] text-6xl tracking-[0.1em] font-light">
               CONTACT

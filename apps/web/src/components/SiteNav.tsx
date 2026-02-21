@@ -27,9 +27,15 @@ export default function SiteNav() {
           <Link href="/menu" className="hover:text-white/90 transition">
             MENU
           </Link>
+
           <Link href="/about" className="hover:text-white/90 transition">
             ABOUT
           </Link>
+
+          <Link href="/contact" className="hover:text-white/90 transition">
+            CONTACT
+          </Link>
+
           <Link
             href="/reservation"
             className="inline-flex items-center justify-center rounded-xl border border-white/14 bg-black/25 px-4 py-2 hover:bg-black/35 transition text-white/80"
